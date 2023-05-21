@@ -20,14 +20,16 @@ class AuthAPI implements IAuthAPI {
       {required String emailID, required String password}) async {
     try {
       final account = await _account.create(
-        userId: 'unique()',
-        email: emailID,
-        password: password,
-      );
-      return right(account);
+        userId: 'unique()', // userId is a unique string //
+        email: emailID, // email is a string //
+        password: password, // password is a string //
+      ); // create is a method from Account class //
+      return right(account); // right is a function from fpdart.dart //
     } catch (e, stackTrace) {
+      // Catching errors and stack trace //
       return left(
-        Failure(e.toString(), stackTrace),
+        Failure(
+            e.toString(), stackTrace), // Failure is a class from core.dart //
       );
     }
   }
