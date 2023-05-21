@@ -7,7 +7,8 @@ import 'package:social_networking/core/core.dart';
 import '../core/providers.dart';
 
 final authAPIProvider = Provider((ref) {
-  AuthAPI(account: ref.watch(appWriteAccountProvider));
+  final account = ref.watch(appWriteAccountProvider);
+  AuthAPI(account: account);
 });
 
 abstract class IAuthAPI {
