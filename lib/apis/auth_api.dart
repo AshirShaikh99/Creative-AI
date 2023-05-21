@@ -19,11 +19,16 @@ class AuthAPI implements IAuthAPI {
   FutureEither<model.User> signUp(
       {required String emailID, required String password}) async {
     try {
-      _account.create(
+      final account = await _account.create(
         userId: 'unique()',
         email: emailID,
         password: password,
       );
-    } catch (e) {}
+      return right(account);
+    } catch (e, stackTrace) {
+      return left(
+        Failure(e.toString(), stackTrace),
+      );
+    }
   }
 }
