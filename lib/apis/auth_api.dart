@@ -25,6 +25,13 @@ class AuthAPI implements IAuthAPI {
         password: password, // password is a string //
       ); // create is a method from Account class //
       return right(account); // right is a function from fpdart.dart //
+    } on AppwriteException catch (e, stackTrace) {
+      // AppwriteException is a class from Appwrite SDK //
+      // Catching errors and stack trace //
+      return left(
+        Failure(e.message.toString(),
+            stackTrace), // Failure is a class from core.dart //
+      );
     } catch (e, stackTrace) {
       // Catching errors and stack trace //
       return left(
