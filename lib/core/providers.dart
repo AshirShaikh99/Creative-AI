@@ -13,6 +13,8 @@ final appWriteClientProvider = Provider(
   },
 );
 
+// ref helps to connect with other providers ref.() //
+
 final appWriteAccountProvider = Provider(
   (ref) {
     final client = ref.watch(appWriteClientProvider); // Watching the client //
