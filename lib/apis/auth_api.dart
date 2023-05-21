@@ -29,7 +29,7 @@ class AuthAPI implements IAuthAPI {
       // AppwriteException is a class from Appwrite SDK //
       // Catching errors and stack trace //
       return left(
-        Failure(e.message.toString(),
+        Failure(e.message ?? "Error occurred",
             stackTrace), // Failure is a class from core.dart //
       );
     } catch (e, stackTrace) {
