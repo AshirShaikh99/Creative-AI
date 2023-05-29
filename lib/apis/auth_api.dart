@@ -17,7 +17,7 @@ abstract class IAuthAPI {
   FutureEither<model.User> signUp(
       {required String emailID, required String password}); // signUp method //
 
-  FutureEither<model.User> login({
+  FutureEither<model.Session> login({
     required String emailID,
     required String password,
   }); // login method //
@@ -52,5 +52,29 @@ class AuthAPI implements IAuthAPI {
             e.toString(), stackTrace), // Failure is a class from core.dart //
       );
     }
+  }
+
+  @override
+  FutureEither<model.Session> login(
+      {required String emailID, required String password}) async {
+    try {
+      final session = await _account.createEmailSession(
+        email: emailID,
+        password: password,
+      );
+      return right(session); // right is a function from fpdart.dart //
+    } on AppwriteException catch (e, stackTrace) {
+      return left(
+        Failure(e.message ?? "Error occurred",
+            stackTrace), // Failure is a class from core.dart //
+      );
+    } catch (e, stackTrace) {
+      return left(
+        Failure(
+            e.toString(), stackTrace), // Failure is a class from core.dart //
+      );
+    }
+
+    throw UnimplementedError();
   }
 }

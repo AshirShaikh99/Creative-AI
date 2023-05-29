@@ -35,12 +35,18 @@ class AuthController extends StateNotifier<bool> {
         (l) => showSnackBar(context, l.message), (r) => print(r.email));
   }
 
-  void login({required String emailID, required String password}) async {
+  // signUp method //
+
+  void login({
+    required String emailID,
+    required String password,
+    required BuildContext context,
+  }) async {
     state = true;
     final response = await _authAPI.login(
         emailID: emailID,
         password: password); // login method from AuthAPI class //
     response.fold(
-        (l) => print(l.message), (r) => print(r.email)); // print the email //
-  } // signUp method //
+        (l) => showSnackBar(context, l.message), (r) => print(r.userId));
+  }
 }

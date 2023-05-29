@@ -32,7 +32,7 @@ class _LoginViewState extends ConsumerState<LoginView> {
     final response = ref.read(authControllerProvider.notifier).login(
           emailID: emailIDController.text,
           password: passwordController.text,
-          // context is required to show snackbar
+          context: context, // context is required to show snackbar
         );
   }
 
@@ -66,7 +66,7 @@ class _LoginViewState extends ConsumerState<LoginView> {
                     label: "Login",
                     onPressed: () async {
                       login();
-                      print("${ref.read(authControllerProvider.notifier)}");
+                      print("Account Found");
                     },
                   ),
                 ),
