@@ -5,9 +5,18 @@ import 'package:riverpod/riverpod.dart';
 import 'package:social_networking/apis/auth_api.dart';
 import 'package:social_networking/core/utils.dart';
 
+final authControllerProvider = StateNotifierProvider<AuthController, bool>(
+  (ref) {
+    // ref helps to connect with other providers ref.() //
+    return AuthController(
+      authAPI: ref.watch(authAPIProvider), // Watching the authAPIProvider //
+    );
+  },
+);
+
 class AuthController extends StateNotifier<bool> {
   final AuthAPI _authAPI; // AuthAPI is a class from AuthAPI.dart //
-  AuthController(AuthAPI authAPI)
+  AuthController({required AuthAPI authAPI})
       : _authAPI = authAPI,
         super(false); // Constructor //
 
