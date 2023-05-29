@@ -27,10 +27,11 @@ class AuthController extends StateNotifier<bool> {
     required String password,
     required BuildContext context,
   }) async {
-    state = true;
+    state = true; // state is true while getting the response //
     final response = await _authAPI.signUp(
         emailID: emailID,
         password: password); // signUp method from AuthAPI class //
+    state = false; // state is false after getting the response //
     response.fold(
         (l) => showSnackBar(context, l.message), (r) => print(r.email));
   }
@@ -42,10 +43,11 @@ class AuthController extends StateNotifier<bool> {
     required String password,
     required BuildContext context,
   }) async {
-    state = true;
+    state = true; // state is true while getting the response //
     final response = await _authAPI.login(
         emailID: emailID,
         password: password); // login method from AuthAPI class //
+    state = false; // state is false after getting the response //
     response.fold(
         (l) => showSnackBar(context, l.message), (r) => print(r.userId));
   }

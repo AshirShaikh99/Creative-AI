@@ -1,6 +1,7 @@
 import 'package:appwrite/appwrite.dart';
 import 'package:flutter/material.dart';
 import 'package:social_networking/apis/auth_api.dart';
+import 'package:social_networking/common/loading_widget.dart';
 import 'package:social_networking/constants/appwrite.dart';
 import 'package:social_networking/constants/ui.dart';
 import 'package:social_networking/features/auth/controller/auth_controller.dart';
@@ -38,43 +39,46 @@ class _LoginViewState extends ConsumerState<LoginView> {
 
   @override
   Widget build(BuildContext context) {
+    final isLoading = ref.watch(authControllerProvider);
     return Scaffold(
       appBar: appBar,
-      body: Center(
-        child: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Column(
-              children: [
-                AuthField(
-                  controller: emailIDController,
-                  hintText: "Email",
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                AuthField(
-                  controller: passwordController,
-                  hintText: "Password",
-                ),
-                const SizedBox(
-                  height: 40.0,
-                ),
-                Align(
-                  alignment: Alignment.topCenter,
-                  child: AuthButton(
-                    label: "Login",
-                    onPressed: () async {
-                      login();
-                      print("Account Found");
-                    },
+      body: isLoading
+          ? const LoaderWidget()
+          : Center(
+              child: SingleChildScrollView(
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Column(
+                    children: [
+                      AuthField(
+                        controller: emailIDController,
+                        hintText: "Email",
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      AuthField(
+                        controller: passwordController,
+                        hintText: "Password",
+                      ),
+                      const SizedBox(
+                        height: 40.0,
+                      ),
+                      Align(
+                        alignment: Alignment.topCenter,
+                        child: AuthButton(
+                          label: "Login",
+                          onPressed: () async {
+                            login();
+                            print("Account Found");
+                          },
+                        ),
+                      ),
+                    ],
                   ),
                 ),
-              ],
+              ),
             ),
-          ),
-        ),
-      ),
     );
   }
 }

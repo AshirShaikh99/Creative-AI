@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:social_networking/apis/auth_api.dart';
+import 'package:social_networking/common/loading_widget.dart';
 import 'package:social_networking/features/auth/controller/auth_controller.dart';
 import 'package:social_networking/features/auth/widgets/auth_button.dart';
 import '../../../constants/ui.dart';
@@ -42,39 +43,42 @@ class _SignUpViewState extends ConsumerState<SignUpView> {
 
   @override
   Widget build(BuildContext context) {
+    final isLoading = ref.watch(authControllerProvider);
     return Scaffold(
       appBar: appBar,
-      body: Center(
-        child: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Column(
-              children: [
-                AuthField(
-                  controller: emailIDController,
-                  hintText: "Email",
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                AuthField(
-                  controller: passwordController,
-                  hintText: "Password",
-                ),
-                const SizedBox(
-                  height: 40.0,
-                ),
-                Align(
-                  child: AuthButton(
-                    label: "Sign Up",
-                    onPressed: signUp,
+      body: isLoading
+          ? const LoaderWidget()
+          : Center(
+              child: SingleChildScrollView(
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Column(
+                    children: [
+                      AuthField(
+                        controller: emailIDController,
+                        hintText: "Email",
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      AuthField(
+                        controller: passwordController,
+                        hintText: "Password",
+                      ),
+                      const SizedBox(
+                        height: 40.0,
+                      ),
+                      Align(
+                        child: AuthButton(
+                          label: "Sign Up",
+                          onPressed: signUp,
+                        ),
+                      ),
+                    ],
                   ),
                 ),
-              ],
+              ),
             ),
-          ),
-        ),
-      ),
     );
   }
 }
