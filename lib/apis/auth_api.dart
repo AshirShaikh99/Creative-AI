@@ -16,6 +16,11 @@ abstract class IAuthAPI {
 
   FutureEither<model.User> signUp(
       {required String emailID, required String password}); // signUp method //
+
+  FutureEither<model.User> login({
+    required String emailID,
+    required String password,
+  }); // login method //
 }
 
 class AuthAPI implements IAuthAPI {

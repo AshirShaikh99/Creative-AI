@@ -3,17 +3,19 @@ import 'package:flutter/material.dart';
 import 'package:social_networking/apis/auth_api.dart';
 import 'package:social_networking/constants/appwrite.dart';
 import 'package:social_networking/constants/ui.dart';
+import 'package:social_networking/features/auth/controller/auth_controller.dart';
 import 'package:social_networking/features/auth/widgets/auth_button.dart';
 import 'package:social_networking/features/auth/widgets/auth_fields.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class LoginView extends StatefulWidget {
+class LoginView extends ConsumerStatefulWidget {
   const LoginView({Key? key}) : super(key: key);
 
   @override
-  State<LoginView> createState() => _LoginViewState();
+  ConsumerState<LoginView> createState() => _LoginViewState();
 }
 
-class _LoginViewState extends State<LoginView> {
+class _LoginViewState extends ConsumerState<LoginView> {
   TextEditingController emailIDController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   final appBar = UIConstants.appBar();
@@ -24,6 +26,14 @@ class _LoginViewState extends State<LoginView> {
     super.dispose();
     emailIDController.dispose();
     passwordController.dispose();
+  }
+
+  void login() {
+    final response = ref.read(authControllerProvider.notifier).login(
+          emailID: emailIDController.text,
+          password: passwordController.text,
+          // context is required to show snackbar
+        );
   }
 
   @override
@@ -55,7 +65,8 @@ class _LoginViewState extends State<LoginView> {
                   child: AuthButton(
                     label: "Login",
                     onPressed: () async {
-                      print("Account Found");
+                      login();
+                      print("${ref.read(authControllerProvider.notifier)}");
                     },
                   ),
                 ),

@@ -1,45 +1,80 @@
 import 'package:flutter/material.dart';
-
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:social_networking/apis/auth_api.dart';
+import 'package:social_networking/features/auth/controller/auth_controller.dart';
+import 'package:social_networking/features/auth/widgets/auth_button.dart';
 import '../../../constants/ui.dart';
 import '../widgets/auth_fields.dart';
 
-class SignUpView extends StatefulWidget {
-  const SignUpView({Key? key}) : super(key: key);
+class SignUpView extends ConsumerStatefulWidget {
+  static route() {
+    return MaterialPageRoute(
+      builder: (context) => const SignUpView(),
+    );
+  }
+
+  const SignUpView({Key? key});
 
   @override
-  State<SignUpView> createState() => _SignUpViewState();
+  ConsumerState<SignUpView> createState() => _SignUpViewState();
 }
 
-class _SignUpViewState extends State<SignUpView> {
+class _SignUpViewState extends ConsumerState<SignUpView> {
   TextEditingController emailIDController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   final appBar = UIConstants.appBar();
 
   @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    emailIDController.dispose();
+    passwordController.dispose();
+  }
+
+  void signUp() {
+    final response = ref.read(authControllerProvider.notifier).signUp(
+          emailID: emailIDController.text,
+          password: passwordController.text,
+          context: context, // context is required to show snackbar
+        );
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: appBar,
-        body: Center(
-          child: SingleChildScrollView(
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Column(
-                children: [
-                  AuthField(
-                    controller: emailIDController,
-                    hintText: "Email",
+      appBar: appBar,
+      body: Center(
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              children: [
+                AuthField(
+                  controller: emailIDController,
+                  hintText: "Email",
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                AuthField(
+                  controller: passwordController,
+                  hintText: "Password",
+                ),
+                const SizedBox(
+                  height: 40.0,
+                ),
+                Align(
+                  child: AuthButton(
+                    label: "Sign Up",
+                    onPressed: signUp,
                   ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  AuthField(
-                    controller: passwordController,
-                    hintText: "Password",
-                  ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
-        ));
+        ),
+      ),
+    );
   }
 }
