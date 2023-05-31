@@ -3,15 +3,19 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:riverpod/riverpod.dart';
 import 'package:social_networking/apis/auth_api.dart';
+import 'package:social_networking/apis/user_api.dart';
 import 'package:social_networking/core/utils.dart';
+import 'package:social_networking/features/auth/view/login_view.dart';
 import 'package:social_networking/features/home/view/home_screen.dart';
 import 'package:appwrite/models.dart' as model;
+import 'package:social_networking/models/user.dart';
 
 final authControllerProvider = StateNotifierProvider<AuthController, bool>(
   (ref) {
     // ref helps to connect with other providers ref.() //
     return AuthController(
       authAPI: ref.watch(authAPIProvider), // Watching the authAPIProvider //
+      userAPI: ref.watch(userAPIProvider), // Watching the userAPIProvider //
     );
   },
 );
@@ -24,8 +28,10 @@ final currentUserAccountProvider = FutureProvider<model.User>((ref) async {
 
 class AuthController extends StateNotifier<bool> {
   final AuthAPI _authAPI; // AuthAPI is a class from AuthAPI.dart //
-  AuthController({required AuthAPI authAPI})
+  final UserAPI _userAPI; // UserAPI is a class from UserAPI.dart //
+  AuthController({required AuthAPI authAPI, required UserAPI userAPI})
       : _authAPI = authAPI,
+        _userAPI = userAPI,
         super(false); // Constructor //
 
   // If it is loading to get the final response from the Backend //
@@ -42,8 +48,22 @@ class AuthController extends StateNotifier<bool> {
         emailID: emailID,
         password: password); // signUp method from AuthAPI class //
     state = false; // state is false after getting the response //
-    response.fold((l) => showSnackBar(context, l.message),
-        (r) => print(r.email)); // signUp method //
+    response.fold((l) => showSnackBar(context, l.message), (r) async {
+      UserModel userModel = UserModel(
+        emailID: emailID,
+        name: getNameFromEmail(emailID),
+        profilePic: '',
+      ); //
+      final saveResponse = await _userAPI
+          .saveUserData(userModel); // saveUserData method from UserAPI class //
+      saveResponse.fold(
+        (l) => showSnackBar(context, l.message),
+        (r) {
+          showSnackBar(context, 'Account Created! Please Login');
+          Navigator.push(context, LoginView.route());
+        },
+      );
+    }); // signUp method //
   }
 
   void login({
