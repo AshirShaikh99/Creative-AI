@@ -16,9 +16,10 @@ final authControllerProvider = StateNotifierProvider<AuthController, bool>(
   },
 );
 
-final currentUserAccountProvider = Provider((ref) {
-  final authController = ref.watch(authControllerProvider.notifier);
-  return authController.currentUser();
+final currentUserAccountProvider = FutureProvider<model.User>((ref) async {
+  final response =
+      await ref.watch(authControllerProvider.notifier).currentUser();
+  return response;
 });
 
 class AuthController extends StateNotifier<bool> {
