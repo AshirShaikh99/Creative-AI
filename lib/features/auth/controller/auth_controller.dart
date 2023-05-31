@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:riverpod/riverpod.dart';
 import 'package:social_networking/apis/auth_api.dart';
 import 'package:social_networking/core/utils.dart';
+import 'package:social_networking/features/home/view/home_screen.dart';
+import 'package:appwrite/models.dart' as model;
 
 final authControllerProvider = StateNotifierProvider<AuthController, bool>(
   (ref) {
@@ -14,6 +16,11 @@ final authControllerProvider = StateNotifierProvider<AuthController, bool>(
   },
 );
 
+final currentUserAccountProvider = Provider((ref) {
+  final authController = ref.watch(authControllerProvider.notifier);
+  return authController.currentUser();
+});
+
 class AuthController extends StateNotifier<bool> {
   final AuthAPI _authAPI; // AuthAPI is a class from AuthAPI.dart //
   AuthController({required AuthAPI authAPI})
@@ -21,6 +28,8 @@ class AuthController extends StateNotifier<bool> {
         super(false); // Constructor //
 
   // If it is loading to get the final response from the Backend //
+
+  Future<model.User> currentUser() => _authAPI.currentUserAccount();
 
   void signUp({
     required String emailID,
@@ -32,11 +41,9 @@ class AuthController extends StateNotifier<bool> {
         emailID: emailID,
         password: password); // signUp method from AuthAPI class //
     state = false; // state is false after getting the response //
-    response.fold(
-        (l) => showSnackBar(context, l.message), (r) => print(r.email));
+    response.fold((l) => showSnackBar(context, l.message),
+        (r) => print(r.email)); // signUp method //
   }
-
-  // signUp method //
 
   void login({
     required String emailID,
@@ -48,7 +55,8 @@ class AuthController extends StateNotifier<bool> {
         emailID: emailID,
         password: password); // login method from AuthAPI class //
     state = false; // state is false after getting the response //
-    response.fold(
-        (l) => showSnackBar(context, l.message), (r) => print(r.userId));
+    response.fold((l) => showSnackBar(context, l.message), (r) {
+      Navigator.push(context, HomeScreen.route());
+    });
   }
 }

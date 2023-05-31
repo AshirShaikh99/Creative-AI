@@ -21,6 +21,9 @@ abstract class IAuthAPI {
     required String emailID,
     required String password,
   }); // login method //
+
+  Future<model.User> currentUserAccount(); // logout method //
+
 }
 
 class AuthAPI implements IAuthAPI {
@@ -75,6 +78,24 @@ class AuthAPI implements IAuthAPI {
       );
     }
 
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<model.User> currentUserAccount() async {
+    try {
+      return await _account.get(); // get is a method from Account class //
+    } on AppwriteException catch (e, stackTrace) {
+      return Future.error(
+        Failure(e.message ?? "Error occurred",
+            stackTrace), // Failure is a class from core.dart //
+      );
+    } catch (e, stackTrace) {
+      return Future.error(
+        Failure(
+            e.toString(), stackTrace), // Failure is a class from core.dart //
+      );
+    }
     throw UnimplementedError();
   }
 }
