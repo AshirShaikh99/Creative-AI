@@ -20,10 +20,9 @@ final authControllerProvider = StateNotifierProvider<AuthController, bool>(
   },
 );
 
-final currentUserAccountProvider = FutureProvider<model.User>((ref) async {
-  final response =
-      await ref.watch(authControllerProvider.notifier).currentUser();
-  return response;
+final currentUserAccountProvider = FutureProvider<model.Account>((ref) {
+  final authController = ref.watch(authControllerProvider.notifier);
+  return authController.currentUser();
 });
 
 class AuthController extends StateNotifier<bool> {
@@ -36,7 +35,7 @@ class AuthController extends StateNotifier<bool> {
 
   // If it is loading to get the final response from the Backend //
 
-  Future<model.User> currentUser() => _authAPI.currentUserAccount();
+  Future<model.Account> currentUser() => _authAPI.currentUserAccount();
 
   void signUp({
     required String emailID,
@@ -53,6 +52,7 @@ class AuthController extends StateNotifier<bool> {
         emailID: emailID,
         name: getNameFromEmail(emailID),
         profilePic: '',
+        uid: r.$id,
       ); //
       final saveResponse = await _userAPI
           .saveUserData(userModel); // saveUserData method from UserAPI class //

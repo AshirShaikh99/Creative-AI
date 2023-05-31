@@ -20,6 +20,7 @@ class MyApp extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Social Networking',
       theme: ThemeData(
         primarySwatch: Colors.blue,
@@ -27,16 +28,33 @@ class MyApp extends ConsumerWidget {
       home: ref.watch(currentUserAccountProvider).when(
             data: (user) {
               if (user == null) {
-                return const LoginView();
-              } else {
                 return const HomeScreen();
+              } else {
+                return const SignUpView();
               }
             },
             error: (error, str) => Error(
               error: error.toString(),
             ),
             loading: () => const LoadingScreen(),
-          ), // ref.watch(authControllerProvider).when(
+          ),
     );
   }
 }
+
+
+// Use it later // 
+
+// ref.watch(currentUserAccountProvider).when(
+//             data: (user) {
+//               if (user != null) {
+//                 return const HomeScreen();
+//               } else {
+//                 return const SignUpView();
+//               }
+//             },
+//             error: (error, str) => Error(
+//               error: error.toString(),
+//             ),
+//             loading: () => const LoadingScreen(),
+//           ), 

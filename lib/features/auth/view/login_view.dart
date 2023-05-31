@@ -12,6 +12,12 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 class LoginView extends ConsumerStatefulWidget {
   const LoginView({Key? key}) : super(key: key);
 
+  static route() {
+    return MaterialPageRoute(
+      builder: (context) => const LoginView(),
+    );
+  }
+
   @override
   ConsumerState<LoginView> createState() => _LoginViewState();
 }

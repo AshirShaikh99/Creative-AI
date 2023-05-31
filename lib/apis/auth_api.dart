@@ -14,7 +14,7 @@ final authAPIProvider = Provider((ref) {
 abstract class IAuthAPI {
   // IAuthAPI is an interface for AuthAPI class to implement its methods //
 
-  FutureEither<model.User> signUp(
+  FutureEither<model.Account> signUp(
       {required String emailID, required String password}); // signUp method //
 
   FutureEither<model.Session> login({
@@ -22,7 +22,7 @@ abstract class IAuthAPI {
     required String password,
   }); // login method //
 
-  Future<model.User> currentUserAccount(); // logout method //
+  Future<model.Account> currentUserAccount(); // logout method //
 
 }
 
@@ -32,7 +32,7 @@ class AuthAPI implements IAuthAPI {
   AuthAPI({required Account account}) : _account = account; // Constructor //
 
   @override // Overriding the signUp method from IAuthAPI interface //
-  FutureEither<model.User> signUp(
+  FutureEither<model.Account> signUp(
       {required String emailID, required String password}) async {
     try {
       final account = await _account.create(
@@ -82,7 +82,7 @@ class AuthAPI implements IAuthAPI {
   }
 
   @override
-  Future<model.User> currentUserAccount() async {
+  Future<model.Account> currentUserAccount() async {
     try {
       return await _account.get(); // get is a method from Account class //
     } on AppwriteException catch (e, stackTrace) {

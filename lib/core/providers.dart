@@ -21,3 +21,10 @@ final appWriteAccountProvider = Provider(
     return Account(client); // Account is a class from Appwrite SDK //
   },
 );
+
+final appWriteDatabaseProvider = Provider(
+  (ref) {
+    final client = ref.watch(appWriteClientProvider); // Watching the client //
+    return Databases(client); // Database is a class from Appwrite SDK //
+  },
+);
