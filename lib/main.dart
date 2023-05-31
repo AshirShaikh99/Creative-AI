@@ -27,7 +27,7 @@ class MyApp extends ConsumerWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const SignUpView(),
+      home: const HomeScreen(),
     );
   }
 }
