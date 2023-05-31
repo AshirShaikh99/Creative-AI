@@ -20,10 +20,12 @@ final authControllerProvider = StateNotifierProvider<AuthController, bool>(
   },
 );
 
-final currentUserAccountProvider = FutureProvider<model.Account>((ref) {
-  final authController = ref.watch(authControllerProvider.notifier);
-  return authController.currentUser();
-});
+final currentUserAccountProvider = FutureProvider<model.User?>(
+  (ref) {
+    final authController = ref.watch(authControllerProvider.notifier);
+    return authController.currentUser();
+  },
+);
 
 class AuthController extends StateNotifier<bool> {
   final AuthAPI _authAPI; // AuthAPI is a class from AuthAPI.dart //
@@ -35,7 +37,7 @@ class AuthController extends StateNotifier<bool> {
 
   // If it is loading to get the final response from the Backend //
 
-  Future<model.Account> currentUser() => _authAPI.currentUserAccount();
+  Future<model.User?> currentUser() => _authAPI.currentUserAccount();
 
   void signUp({
     required String emailID,

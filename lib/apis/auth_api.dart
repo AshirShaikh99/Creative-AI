@@ -14,7 +14,7 @@ final authAPIProvider = Provider((ref) {
 abstract class IAuthAPI {
   // IAuthAPI is an interface for AuthAPI class to implement its methods //
 
-  FutureEither<model.Account> signUp(
+  FutureEither<model.User> signUp(
       {required String emailID, required String password}); // signUp method //
 
   FutureEither<model.Session> login({
@@ -22,7 +22,7 @@ abstract class IAuthAPI {
     required String password,
   }); // login method //
 
-  Future<model.Account> currentUserAccount(); // logout method //
+  Future<model.User?> currentUserAccount(); // logout method //
 
 }
 
@@ -31,8 +31,25 @@ class AuthAPI implements IAuthAPI {
 
   AuthAPI({required Account account}) : _account = account; // Constructor //
 
+  @override
+  Future<model.User?> currentUserAccount() async {
+    try {
+      return await _account.get(); // get is a method from Account class //
+    } on AppwriteException catch (e, stackTrace) {
+      return Future.error(
+        Failure(e.message ?? "Error occurred",
+            stackTrace), // Failure is a class from core.dart //
+      );
+    } catch (e, stackTrace) {
+      return Future.error(
+        Failure(
+            e.toString(), stackTrace), // Failure is a class from core.dart //
+      );
+    }
+  }
+
   @override // Overriding the signUp method from IAuthAPI interface //
-  FutureEither<model.Account> signUp(
+  FutureEither<model.User> signUp(
       {required String emailID, required String password}) async {
     try {
       final account = await _account.create(
@@ -77,25 +94,7 @@ class AuthAPI implements IAuthAPI {
             e.toString(), stackTrace), // Failure is a class from core.dart //
       );
     }
-
-    throw UnimplementedError();
-  }
-
-  @override
-  Future<model.Account> currentUserAccount() async {
-    try {
-      return await _account.get(); // get is a method from Account class //
-    } on AppwriteException catch (e, stackTrace) {
-      return Future.error(
-        Failure(e.message ?? "Error occurred",
-            stackTrace), // Failure is a class from core.dart //
-      );
-    } catch (e, stackTrace) {
-      return Future.error(
-        Failure(
-            e.toString(), stackTrace), // Failure is a class from core.dart //
-      );
-    }
+    // ignore: dead_code
     throw UnimplementedError();
   }
 }
