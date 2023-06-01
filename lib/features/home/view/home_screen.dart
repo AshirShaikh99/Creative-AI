@@ -29,29 +29,35 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   void initState() {
     super.initState();
     initSpeechToText();
-  }
+  } // Init State //
 
   Future<void> initSpeechToText() async {
-    speechToText.initialize();
+    await speechToText.initialize();
     setState(() {
       speechToText.isAvailable;
     });
-  }
+  } // ignore: avoid_void_async
 
   void _onSpeechResult(SpeechRecognitionResult result) {
     setState(() {
       speech = result.recognizedWords;
     });
-  }
+  } // Speech Result //
 
-  void _startListening() async {
+  Future<void> _startListening() async {
     await speechToText.listen(onResult: _onSpeechResult);
     setState(() {});
-  }
+  } // Start Listening //
 
-  void _stopListening() async {
+  Future<void> _stopListening() async {
     await speechToText.stop();
     setState(() {});
+  } // Stop Listening //
+
+  @override
+  void dispose() {
+    super.dispose();
+    speechToText.stop(); // Stop Listening //
   }
 
   @override
@@ -155,9 +161,17 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        child: const Icon(Icons.mic),
-        onPressed: () {},
+        onPressed: () async {
+          if (await speechToText.hasPermission && speechToText.isNotListening) {
+            _startListening();
+          } else if (speechToText.isListening) {
+            await _stopListening();
+          } else {
+            initSpeechToText();
+          }
+        },
         backgroundColor: Colors.teal,
+        child: const Icon(Icons.mic),
       ),
     );
   }
