@@ -39,6 +39,7 @@ dependencies:
   fpdart: ^0.6.0
   fvm: ^2.3.1
   flutter_riverpod: ^2.3.6
+  speech_to_text: ^5.6.1
 
 dev_dependencies:
   flutter_test:
