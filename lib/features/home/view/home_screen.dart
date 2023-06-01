@@ -5,6 +5,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:social_networking/apis/user_api.dart';
 import 'package:social_networking/features/home/widgets/feature_container.dart';
 import 'package:social_networking/models/user.dart';
+import 'package:speech_to_text/speech_recognition_result.dart';
+import 'package:speech_to_text/speech_to_text.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
   static route() {
@@ -21,11 +23,35 @@ class HomeScreen extends ConsumerStatefulWidget {
 
 class _HomeScreenState extends ConsumerState<HomeScreen> {
   // get the user data from the provider
-
+  String speech = "";
+  final speechToText = SpeechToText();
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
+    initSpeechToText();
+  }
+
+  Future<void> initSpeechToText() async {
+    speechToText.initialize();
+    setState(() {
+      speechToText.isAvailable;
+    });
+  }
+
+  void _onSpeechResult(SpeechRecognitionResult result) {
+    setState(() {
+      speech = result.recognizedWords;
+    });
+  }
+
+  void _startListening() async {
+    await speechToText.listen(onResult: _onSpeechResult);
+    setState(() {});
+  }
+
+  void _stopListening() async {
+    await speechToText.stop();
+    setState(() {});
   }
 
   @override
@@ -131,6 +157,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
       floatingActionButton: FloatingActionButton(
         child: const Icon(Icons.mic),
         onPressed: () {},
+        backgroundColor: Colors.teal,
       ),
     );
   }
