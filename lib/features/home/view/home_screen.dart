@@ -190,7 +190,7 @@ class _HomePageState extends State<HomePage> {
                     delay: Duration(milliseconds: start + 2 * delay),
                     child: const FeatureContainer(
                       color: Color(0xffedc9aae),
-                      headingText: 'Smart Voice Assistant',
+                      headingText: 'Instant Voice Assistant',
                       subHeadingText:
                           'Get the best of both worlds with a voice assistant powered by Dall-E and ChatGPT',
                     ),

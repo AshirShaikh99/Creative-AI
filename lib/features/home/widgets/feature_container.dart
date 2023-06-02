@@ -38,8 +38,8 @@ class FeatureContainer extends StatelessWidget {
                 style: const TextStyle(
                   fontFamily: 'Rubik',
                   color: Colors.black,
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
+                  fontSize: 20,
+                  fontWeight: FontWeight.w900,
                 ),
               ),
             ),
@@ -51,6 +51,7 @@ class FeatureContainer extends StatelessWidget {
                 style: const TextStyle(
                   fontFamily: 'Rubik',
                   color: Colors.black,
+                  fontWeight: FontWeight.w600,
                 ),
               ),
             ),
