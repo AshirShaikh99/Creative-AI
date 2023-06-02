@@ -1,177 +1,236 @@
-import 'dart:math';
-
+import '../widgets/feature_container.dart';
+import '../../../services/openai_api/openai_api.dart';
+import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:social_networking/apis/user_api.dart';
-import 'package:social_networking/features/home/widgets/feature_container.dart';
-import 'package:social_networking/models/user.dart';
+import 'package:flutter_tts/flutter_tts.dart';
 import 'package:speech_to_text/speech_recognition_result.dart';
 import 'package:speech_to_text/speech_to_text.dart';
 
-class HomeScreen extends ConsumerStatefulWidget {
+class HomePage extends StatefulWidget {
   static route() {
     return MaterialPageRoute(
-      builder: (context) => const HomeScreen(),
+      builder: (context) => const HomePage(),
     );
   }
 
-  const HomeScreen({Key? key}) : super(key: key);
+  const HomePage({Key? key}) : super(key: key);
 
   @override
-  ConsumerState<HomeScreen> createState() => _HomeScreenState();
+  State<HomePage> createState() => _HomePageState();
 }
 
-class _HomeScreenState extends ConsumerState<HomeScreen> {
-  // get the user data from the provider
-  String speech = "";
+class _HomePageState extends State<HomePage> {
   final speechToText = SpeechToText();
+  final flutterTts = FlutterTts();
+  String lastWords = '';
+  final OpenAIService openAIService = OpenAIService();
+  String? generatedContent;
+  String? generatedImageUrl;
+  int start = 200;
+  int delay = 200;
+
   @override
   void initState() {
     super.initState();
     initSpeechToText();
-  } // Init State //
+    initTextToSpeech();
+  }
+
+  Future<void> initTextToSpeech() async {
+    await flutterTts.setSharedInstance(true);
+    setState(() {});
+  }
 
   Future<void> initSpeechToText() async {
     await speechToText.initialize();
-    setState(() {
-      speechToText.isAvailable;
-    });
-  } // ignore: avoid_void_async
-
-  void _onSpeechResult(SpeechRecognitionResult result) {
-    setState(() {
-      speech = result.recognizedWords;
-    });
-  } // Speech Result //
-
-  Future<void> _startListening() async {
-    await speechToText.listen(onResult: _onSpeechResult);
     setState(() {});
-  } // Start Listening //
+  }
 
-  Future<void> _stopListening() async {
+  Future<void> startListening() async {
+    await speechToText.listen(onResult: onSpeechResult);
+    setState(() {});
+  }
+
+  Future<void> stopListening() async {
     await speechToText.stop();
     setState(() {});
-  } // Stop Listening //
+  }
+
+  void onSpeechResult(SpeechRecognitionResult result) {
+    setState(() {
+      lastWords = result.recognizedWords;
+    });
+  }
+
+  Future<void> systemSpeak(String content) async {
+    await flutterTts.speak(content);
+  }
 
   @override
   void dispose() {
     super.dispose();
-    speechToText.stop(); // Stop Listening //
+    speechToText.stop();
+    flutterTts.stop();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Color(0xff151419),
       appBar: AppBar(
-        backgroundColor: Colors.teal,
-        title: const Text("My Instructor"),
-        leading: const Icon(Icons.menu),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.only(top: 30),
-        child: Center(
-          child: SingleChildScrollView(
-            child: Column(
-              children: [
-                const Text(
-                  "Hi Ashir",
-                  style: TextStyle(
-                    fontSize: 35,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                const SizedBox(
-                  height: 5,
-                ),
-                Container(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                  margin: const EdgeInsets.symmetric(horizontal: 20)
-                      .copyWith(top: 30),
-                  decoration: BoxDecoration(
-                    border: Border.all(color: Colors.grey),
-                    borderRadius: BorderRadius.circular(20)
-                        .copyWith(topLeft: Radius.zero, topRight: Radius.zero),
-                  ),
-                  child: const Padding(
-                    padding: EdgeInsets.symmetric(vertical: 10.0),
-                    child: Text(
-                      "What task can I do for you today?",
-                      style: TextStyle(
-                        fontSize: 25,
-                        fontFamily: 'serif',
-                        fontWeight: FontWeight.w400,
-                      ),
-                    ),
-                  ),
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                Container(
-                  padding: const EdgeInsets.all(10),
-                  alignment: Alignment.centerLeft,
-                  margin: const EdgeInsets.only(
-                    top: 10,
-                    left: 22,
-                  ),
-                  child: const Text(
-                    "Explore Features",
-                    style: TextStyle(
-                      fontSize: 25,
-                      fontFamily: 'serif',
-                      fontWeight: FontWeight.w600,
-                      color: Colors.black,
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Column(
-                    children: const [
-                      FeatureContainer(
-                        color: Colors.lightGreenAccent,
-                        headingText: "My Instructor",
-                        subHeadingText: "Get your own instructor",
-                      ),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      FeatureContainer(
-                        color: Colors.lightGreenAccent,
-                        headingText: "My Instructor",
-                        subHeadingText: "Get your own instructor",
-                      ),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      FeatureContainer(
-                        color: Colors.lightGreenAccent,
-                        headingText: "My Instructor",
-                        subHeadingText: "Get your own instructor",
-                      ),
-                    ],
-                  ),
-                ),
-              ],
+        backgroundColor: Color(0xff151419),
+        title: BounceInDown(
+          child: const Text(
+            'Creative AI',
+            style: TextStyle(
+              fontFamily: 'Rubik',
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
             ),
           ),
         ),
+        leading: const Icon(
+          Icons.menu,
+          color: Colors.white,
+        ),
+        centerTitle: true,
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () async {
-          if (await speechToText.hasPermission && speechToText.isNotListening) {
-            _startListening();
-          } else if (speechToText.isListening) {
-            await _stopListening();
-          } else {
-            initSpeechToText();
-          }
-        },
-        backgroundColor: Colors.teal,
-        child: const Icon(Icons.mic),
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            // chat bubble
+            FadeInRight(
+              child: Visibility(
+                visible: generatedImageUrl == null,
+                child: Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 20,
+                    vertical: 10,
+                  ),
+                  margin: const EdgeInsets.symmetric(horizontal: 40).copyWith(
+                    top: 30,
+                  ),
+                  decoration: BoxDecoration(
+                    border: Border.all(
+                      color: Color(0xffdc5a17),
+                      width: 2,
+                    ),
+                    borderRadius: BorderRadius.circular(20).copyWith(
+                      topLeft: Radius.zero,
+                    ),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 10.0),
+                    child: Text(
+                      generatedContent == null
+                          ? 'Good Morning, I am your instructor. How can I help you?'
+                          : generatedContent!,
+                      style: TextStyle(
+                        fontFamily: 'Rubik',
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                        fontSize: generatedContent == null ? 25 : 18,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            if (generatedImageUrl != null)
+              Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(20),
+                  child: Image.network(generatedImageUrl!),
+                ),
+              ),
+            SlideInLeft(
+              child: Visibility(
+                visible: generatedContent == null && generatedImageUrl == null,
+                child: Container(
+                  padding: const EdgeInsets.all(10),
+                  alignment: Alignment.centerLeft,
+                  margin: const EdgeInsets.only(top: 10, left: 22),
+                  child: const Text(
+                    'I can help you with',
+                    style: TextStyle(
+                      fontFamily: 'Rubik',
+                      color: Colors.white,
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            // features list
+            Visibility(
+              visible: generatedContent == null && generatedImageUrl == null,
+              child: Column(
+                children: [
+                  SlideInLeft(
+                    delay: Duration(milliseconds: start),
+                    child: const FeatureContainer(
+                      color: Color(0xff29eae6),
+                      headingText: 'AppWrite',
+                      subHeadingText:
+                          'A smarter way to get knowledge about AppWrite',
+                    ),
+                  ),
+                  SlideInLeft(
+                    delay: Duration(milliseconds: start + delay),
+                    child: const FeatureContainer(
+                      color: Color(0xffd6bafe),
+                      headingText: 'Instant Answers',
+                      subHeadingText:
+                          'Get knowledge from me in a matter of seconds',
+                    ),
+                  ),
+                  SlideInLeft(
+                    delay: Duration(milliseconds: start + 2 * delay),
+                    child: const FeatureContainer(
+                      color: Color(0xffedc9aae),
+                      headingText: 'Smart Voice Assistant',
+                      subHeadingText:
+                          'Get the best of both worlds with a voice assistant powered by Dall-E and ChatGPT',
+                    ),
+                  ),
+                ],
+              ),
+            )
+          ],
+        ),
+      ),
+      floatingActionButton: ZoomIn(
+        delay: Duration(milliseconds: start + 3 * delay),
+        child: FloatingActionButton(
+          backgroundColor: Color(0xffc4f862),
+          onPressed: () async {
+            if (await speechToText.hasPermission &&
+                speechToText.isNotListening) {
+              await startListening();
+            } else if (speechToText.isListening) {
+              final speech = await openAIService.dallEAPI(lastWords);
+              if (speech.contains('https')) {
+                generatedImageUrl = speech;
+                generatedContent = null;
+                setState(() {});
+              } else {
+                generatedImageUrl = null;
+                generatedContent = speech;
+                setState(() {});
+                await systemSpeak(speech);
+              }
+              await stopListening();
+            } else {
+              initSpeechToText();
+            }
+          },
+          child: Icon(
+            speechToText.isListening ? Icons.stop : Icons.mic,
+            color: Colors.black,
+          ),
+        ),
       ),
     );
   }

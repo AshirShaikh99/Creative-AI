@@ -79,7 +79,7 @@ class AuthController extends StateNotifier<bool> {
         password: password); // login method from AuthAPI class //
     state = false; // state is false after getting the response //
     response.fold((l) => showSnackBar(context, l.message), (r) {
-      Navigator.push(context, HomeScreen.route());
+      Navigator.push(context, HomePage.route());
     });
   }
 }
