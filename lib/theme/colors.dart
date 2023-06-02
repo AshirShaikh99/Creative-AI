@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
 class Pallete {
-  static const Color backgroundColor = Colors.black;
-  static const Color searchBarColor = Color.fromRGBO(32, 35, 39, 1);
-  static const Color blueColor = Color.fromRGBO(29, 155, 240, 1);
-  static const Color whiteColor = Colors.white;
-  static const Color greyColor = Colors.grey;
-  static const Color redColor = Color.fromRGBO(249, 25, 127, 1);
+  static const Color backgroundColor = Color(0xff151419);
+  static const Color blockColor1 = Color(0xff29eae6);
+  static const Color blockColor2 = Color(0xffd6bafe);
+  static const Color blockColor3 = Color(0xffedc9aae);
+  static const Color floatingActionButton = Color(0xffc4f862);
+  static const Color border = Color(0xffdc5a17);
 }

@@ -1,3 +1,5 @@
+import 'package:social_networking/theme/theme_imports.dart';
+
 import '../widgets/feature_container.dart';
 import '../../../services/openai_api/openai_api.dart';
 import 'package:animate_do/animate_do.dart';
@@ -76,9 +78,9 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xff151419),
+      backgroundColor: const Color(0xff151419),
       appBar: AppBar(
-        backgroundColor: Color(0xff151419),
+        backgroundColor: const Color(0xff151419),
         title: BounceInDown(
           child: const Text(
             'Creative AI',
@@ -112,7 +114,7 @@ class _HomePageState extends State<HomePage> {
                   ),
                   decoration: BoxDecoration(
                     border: Border.all(
-                      color: Color(0xffdc5a17),
+                      color: Pallete.border,
                       width: 2,
                     ),
                     borderRadius: BorderRadius.circular(20).copyWith(
@@ -171,7 +173,7 @@ class _HomePageState extends State<HomePage> {
                   SlideInLeft(
                     delay: Duration(milliseconds: start),
                     child: const FeatureContainer(
-                      color: Color(0xff29eae6),
+                      color: Pallete.blockColor1,
                       headingText: 'AppWrite',
                       subHeadingText:
                           'A smarter way to get knowledge about AppWrite',
@@ -180,7 +182,7 @@ class _HomePageState extends State<HomePage> {
                   SlideInLeft(
                     delay: Duration(milliseconds: start + delay),
                     child: const FeatureContainer(
-                      color: Color(0xffd6bafe),
+                      color: Pallete.blockColor2,
                       headingText: 'Instant Answers',
                       subHeadingText:
                           'Get knowledge from me in a matter of seconds',
@@ -189,7 +191,7 @@ class _HomePageState extends State<HomePage> {
                   SlideInLeft(
                     delay: Duration(milliseconds: start + 2 * delay),
                     child: const FeatureContainer(
-                      color: Color(0xffedc9aae),
+                      color: Pallete.blockColor3,
                       headingText: 'Instant Voice Assistant',
                       subHeadingText:
                           'Get the best of both worlds with a voice assistant powered by Dall-E and ChatGPT',
@@ -204,7 +206,7 @@ class _HomePageState extends State<HomePage> {
       floatingActionButton: ZoomIn(
         delay: Duration(milliseconds: start + 3 * delay),
         child: FloatingActionButton(
-          backgroundColor: Color(0xffc4f862),
+          backgroundColor: Pallete.floatingActionButton,
           onPressed: () async {
             if (await speechToText.hasPermission &&
                 speechToText.isNotListening) {

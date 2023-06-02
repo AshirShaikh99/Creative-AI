@@ -23,12 +23,11 @@ class MyApp extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Social Networking',
+      title: 'Creative AI',
       theme: ThemeData(
         useMaterial3: true,
-        primarySwatch: Colors.blue,
       ),
-      home: const HomePage(),
+      home: const LoginView(),
     );
   }
 }
