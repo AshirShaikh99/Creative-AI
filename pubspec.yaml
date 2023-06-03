@@ -39,7 +39,6 @@ dependencies:
   fpdart: ^0.6.0
   fvm: ^2.3.1
   flutter_riverpod: ^2.3.6
-  speech_to_text: ^5.6.1
   http: ^0.13.5
   flutter_tts: ^3.7.0
   animate_do: ^3.0.2

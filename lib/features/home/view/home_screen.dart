@@ -12,7 +12,6 @@ import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 import 'package:speech_to_text/speech_recognition_result.dart';
-import 'package:speech_to_text/speech_to_text.dart';
 import 'package:rich_clipboard/rich_clipboard.dart';
 
 class HomePage extends StatefulWidget {
@@ -29,7 +28,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  final speechToText = SpeechToText();
   final flutterTts = FlutterTts();
   String lastWords = '';
   final OpenAIService openAIService = OpenAIService();
@@ -38,39 +36,12 @@ class _HomePageState extends State<HomePage> {
   int start = 200;
   int delay = 200;
   bool isAnimate = false;
+  bool isDrawing = false;
   TextEditingController textEditingController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
-    initSpeechToText();
-    initTextToSpeech();
-  }
-
-  Future<void> initTextToSpeech() async {
-    await flutterTts.setSharedInstance(true);
-    setState(() {});
-  }
-
-  Future<void> initSpeechToText() async {
-    await speechToText.initialize();
-    setState(() {});
-  }
-
-  Future<void> startListening() async {
-    await speechToText.listen(onResult: onSpeechResult);
-    setState(() {});
-  }
-
-  Future<void> stopListening() async {
-    await speechToText.stop();
-    setState(() {});
-  }
-
-  void onSpeechResult(SpeechRecognitionResult result) {
-    setState(() {
-      lastWords = result.recognizedWords;
-    });
   }
 
   Future<void> systemSpeak(String content) async {
@@ -80,7 +51,7 @@ class _HomePageState extends State<HomePage> {
   @override
   void dispose() {
     super.dispose();
-    speechToText.stop();
+
     flutterTts.stop();
   }
 
@@ -271,7 +242,7 @@ class _HomePageState extends State<HomePage> {
                               colors: Pallete.colorizeColors,
                             ),
                             ColorizeAnimatedText(
-                              'Generating',
+                              isDrawing == true ? 'Drawing' : 'Generating',
                               textStyle: colorizeTextStyle,
                               colors: Pallete.colorizeColors,
                             ),
@@ -332,11 +303,11 @@ class _HomePageState extends State<HomePage> {
                               if (textEditingController.text.isNotEmpty) {
                                 Navigator.pop(context);
                                 setState(() {
-                                  isAnimate = true;
+                                  isDrawing = true;
                                 });
                                 final drawing = await openAIService
                                     .dallEAPI(textEditingController.text);
-                                isAnimate = false;
+                                isDrawing = false;
                                 setState(() {
                                   generatedImageUrl = drawing;
                                   generatedContent = null;
