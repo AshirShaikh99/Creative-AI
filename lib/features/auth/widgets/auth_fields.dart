@@ -19,6 +19,7 @@ class _AuthFieldState extends State<AuthField> {
   @override
   Widget build(BuildContext context) {
     return TextField(
+      obscureText: widget.hintText == 'Password' ? true : false,
       style: const TextStyle(
         color: Colors.white,
         fontSize: 16.0,
