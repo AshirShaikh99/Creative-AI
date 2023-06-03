@@ -27,7 +27,7 @@ class MyApp extends ConsumerWidget {
       theme: ThemeData(
         useMaterial3: true,
       ),
-      home: const LoginView(),
+      home: const HomePage(),
     );
   }
 }
