@@ -297,25 +297,66 @@ class _HomePageState extends State<HomePage> {
               child: FloatingActionButton(
                 backgroundColor: Pallete.floatingActionButton,
                 onPressed: () async {
-                  if (await speechToText.hasPermission &&
-                      speechToText.isNotListening) {
-                    await startListening();
-                  } else if (speechToText.isNotListening) {
-                    final speech = await openAIService.dallEAPI(lastWords);
-                    if (speech.contains('https')) {
-                      generatedImageUrl = speech;
-                      generatedContent = null;
-                      setState(() {});
-                    } else {
-                      generatedImageUrl = null;
-                      generatedContent = speech;
-                      setState(() {});
-                      await systemSpeak(speech);
-                    }
-                    await stopListening();
-                  } else {
-                    initSpeechToText();
-                  }
+                  showDialog(
+                    context: context,
+                    builder: (_) {
+                      return AlertDialog(
+                        backgroundColor: Pallete.backgroundColor,
+                        title: const Text(
+                          "I am your Illustrator",
+                          style: TextStyle(
+                            fontFamily: 'Rubik',
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                            fontSize: 20,
+                          ),
+                        ),
+                        content: SizedBox(
+                          height: 100,
+                          child: Column(
+                            children: [
+                              AuthField(
+                                hintText: "Type your illustration here",
+                                controller: textEditingController,
+                                color: Pallete.border,
+                              ),
+                            ],
+                          ),
+                        ),
+                        actions: [
+                          ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              primary: Pallete.floatingActionButton,
+                            ),
+                            onPressed: () async {
+                              if (textEditingController.text.isNotEmpty) {
+                                Navigator.pop(context);
+                                setState(() {
+                                  isAnimate = true;
+                                });
+                                final drawing = await openAIService
+                                    .dallEAPI(textEditingController.text);
+                                isAnimate = false;
+                                setState(() {
+                                  generatedImageUrl = drawing;
+                                  generatedContent = null;
+                                });
+                              }
+                            },
+                            child: const Text(
+                              'Draw',
+                              style: TextStyle(
+                                fontFamily: 'Rubik',
+                                color: Colors.black,
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        ],
+                      );
+                    },
+                  );
                 },
                 child: const Icon(
                   Icons.image,
