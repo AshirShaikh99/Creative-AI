@@ -44,6 +44,9 @@ dependencies:
   flutter_tts: ^3.7.0
   animate_do: ^3.0.2
   lottie: ^1.4.2
+  animated_text_kit: ^4.2.2
+  share_plus: ^4.5.3
+  rich_clipboard: ^1.0.1
  
 
 dev_dependencies:
