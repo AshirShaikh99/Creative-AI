@@ -7,4 +7,10 @@ class Pallete {
   static const Color blockColor3 = Color(0xffedc9aae);
   static const Color floatingActionButton = Color(0xffc4f862);
   static const Color border = Color(0xffdc5a17);
+  static const colorizeColors = [
+    Colors.purple,
+    Colors.blue,
+    Colors.yellow,
+    Colors.red,
+  ];
 }

@@ -1,12 +1,17 @@
+import 'package:flutter/services.dart';
+import 'package:lottie/lottie.dart';
+import 'package:social_networking/styles/text_style.dart';
 import 'package:social_networking/theme/theme_imports.dart';
-
+import 'package:animated_text_kit/animated_text_kit.dart';
 import '../widgets/feature_container.dart';
+import 'package:share_plus/share_plus.dart';
 import '../../../services/openai_api/openai_api.dart';
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 import 'package:speech_to_text/speech_recognition_result.dart';
 import 'package:speech_to_text/speech_to_text.dart';
+import 'package:rich_clipboard/rich_clipboard.dart';
 
 class HomePage extends StatefulWidget {
   static route() {
@@ -30,6 +35,7 @@ class _HomePageState extends State<HomePage> {
   String? generatedImageUrl;
   int start = 200;
   int delay = 200;
+  bool isAnimate = false;
 
   @override
   void initState() {
@@ -138,6 +144,38 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
             ),
+            if (generatedContent != null)
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  IconButton(
+                    icon: const Icon(
+                      Icons.copy,
+                      color: Pallete.border,
+                    ),
+                    onPressed: () {
+                      Clipboard.setData(
+                        ClipboardData(text: generatedContent),
+                      );
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text('Copied'),
+                        ),
+                      );
+                    },
+                  ),
+                  IconButton(
+                    icon: const Icon(
+                      Icons.share,
+                      color: Pallete.border,
+                    ),
+                    onPressed: () async {
+                      await Share.share(generatedContent!);
+                    },
+                  ),
+                ],
+              ),
+
             if (generatedImageUrl != null)
               Padding(
                 padding: const EdgeInsets.all(10.0),
@@ -192,14 +230,55 @@ class _HomePageState extends State<HomePage> {
                     delay: Duration(milliseconds: start + 2 * delay),
                     child: const FeatureContainer(
                       color: Pallete.blockColor3,
-                      headingText: 'Instant Voice Assistant',
+                      headingText: 'Instant Drawing',
                       subHeadingText:
-                          'Get the best of both worlds with a voice assistant powered by Dall-E and ChatGPT',
+                          'Draw a picture by voice and I will generate it for you',
                     ),
                   ),
                 ],
               ),
-            )
+            ),
+            Align(
+              alignment: Alignment.bottomLeft,
+              child: Visibility(
+                visible: isAnimate == true ? true : false,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Lottie.asset(
+                      'assets/animation/animate.json',
+                      height: 40,
+                    ),
+                    SizedBox(
+                      width: 250.0,
+                      child: AnimatedTextKit(
+                        animatedTexts: [
+                          ColorizeAnimatedText(
+                            'I',
+                            textStyle: colorizeTextStyle,
+                            colors: Pallete.colorizeColors,
+                          ),
+                          ColorizeAnimatedText(
+                            'am',
+                            textStyle: colorizeTextStyle,
+                            colors: Pallete.colorizeColors,
+                          ),
+                          ColorizeAnimatedText(
+                            'Generating',
+                            textStyle: colorizeTextStyle,
+                            colors: Pallete.colorizeColors,
+                          ),
+                        ],
+                        isRepeatingAnimation: true,
+                        onTap: () {
+                          print("Tap Event");
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
           ],
         ),
       ),
