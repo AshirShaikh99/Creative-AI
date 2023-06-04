@@ -1,5 +1,8 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/services.dart';
+import 'package:gallery_saver/gallery_saver.dart';
 import 'package:lottie/lottie.dart';
+import 'package:social_networking/features/auth/controller/auth_controller.dart';
 import 'package:social_networking/features/auth/widgets/auth_button.dart';
 import 'package:social_networking/features/auth/widgets/auth_fields.dart';
 import 'package:social_networking/styles/text_style.dart';
@@ -11,10 +14,11 @@ import '../../../services/openai_api/openai_api.dart';
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_tts/flutter_tts.dart';
-
 import 'package:rich_clipboard/rich_clipboard.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class HomePage extends StatefulWidget {
+class HomePage extends ConsumerStatefulWidget {
   static route() {
     return MaterialPageRoute(
       builder: (context) => const HomePage(),
@@ -24,10 +28,10 @@ class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
 
   @override
-  State<HomePage> createState() => _HomePageState();
+  ConsumerState<HomePage> createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _HomePageState extends ConsumerState<HomePage> {
   final flutterTts = FlutterTts();
   String lastWords = '';
   final OpenAIService openAIService = OpenAIService();
@@ -38,6 +42,8 @@ class _HomePageState extends State<HomePage> {
   bool isAnimate = false;
   bool isDrawing = false;
   TextEditingController textEditingController = TextEditingController();
+  Dio dio = Dio();
+  String kPlaceHolderImage = 'assets/loading/loading.gif';
 
   @override
   void initState() {
@@ -63,7 +69,7 @@ class _HomePageState extends State<HomePage> {
           backgroundColor: const Color(0xff151419),
           title: BounceInDown(
             child: const Text(
-              'Creative AI',
+              "Creative AI",
               style: TextStyle(
                 fontFamily: 'Rubik',
                 color: Colors.white,
@@ -150,16 +156,55 @@ class _HomePageState extends State<HomePage> {
                         await Share.share(generatedContent!);
                       },
                     ),
+                    IconButton(
+                      icon: const Icon(
+                        Icons.play_arrow_rounded,
+                        color: Pallete.border,
+                      ),
+                      onPressed: () async {
+                        await systemSpeak(generatedContent!);
+                      },
+                    ),
                   ],
                 ),
 
               if (generatedImageUrl != null)
                 Padding(
-                  padding: const EdgeInsets.all(10.0),
+                  padding: EdgeInsets.all(10.0),
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(20),
-                    child: Image.network(generatedImageUrl!),
+                    child: FadeInImage.assetNetwork(
+                        placeholder: kPlaceHolderImage,
+                        image: generatedImageUrl!),
                   ),
+                ),
+              if (generatedImageUrl != null)
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    IconButton(
+                      icon: const Icon(
+                        Icons.save,
+                        color: Pallete.border,
+                        size: 30,
+                      ),
+                      onPressed: () async {
+                        String imgUrl = generatedImageUrl!;
+                        final tempDir = await getTemporaryDirectory();
+                        final path = '${tempDir.path}/image.jpg';
+                        await dio.download(imgUrl, path);
+                        await GallerySaver.saveImage(
+                          path,
+                          albumName: 'Creative AI Gallery',
+                        );
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text('Image Saved'),
+                          ),
+                        );
+                      },
+                    ),
+                  ],
                 ),
               SlideInLeft(
                 child: Visibility(
@@ -303,11 +348,13 @@ class _HomePageState extends State<HomePage> {
                               if (textEditingController.text.isNotEmpty) {
                                 Navigator.pop(context);
                                 setState(() {
+                                  isAnimate = true;
                                   isDrawing = true;
                                 });
                                 final drawing = await openAIService
                                     .dallEAPI(textEditingController.text);
                                 isDrawing = false;
+                                isAnimate = false;
                                 setState(() {
                                   generatedImageUrl = drawing;
                                   generatedContent = null;
@@ -383,7 +430,6 @@ class _HomePageState extends State<HomePage> {
                                   generatedImageUrl = null;
                                   generatedContent = generated;
                                 });
-                                systemSpeak(generated);
                               }
                             },
                             child: const Text(
