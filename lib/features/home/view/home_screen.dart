@@ -270,7 +270,7 @@ class _HomePageState extends State<HomePage> {
                         color: Pallete.blockColor3,
                         headingText: 'Instant Drawing',
                         subHeadingText:
-                            'Draw a picture by voice and I will generate it for you',
+                            'Draw a picture by inputting a text and I will draw it for you',
                       ),
                     ),
                   ],
