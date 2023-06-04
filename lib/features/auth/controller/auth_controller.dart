@@ -6,6 +6,7 @@ import 'package:social_networking/apis/auth_api.dart';
 import 'package:social_networking/apis/user_api.dart';
 import 'package:social_networking/core/utils.dart';
 import 'package:social_networking/features/auth/view/login_view.dart';
+import 'package:social_networking/features/auth/view/signup_view.dart';
 import 'package:social_networking/features/home/view/home_screen.dart';
 import 'package:appwrite/models.dart' as model;
 import 'package:social_networking/models/user.dart';
@@ -56,8 +57,8 @@ class AuthController extends StateNotifier<bool> {
         profilePic: '',
         uid: r.$id,
       ); //
-      final saveResponse = await _userAPI
-          .saveUserData(userModel); // saveUserData method from UserAPI class //
+      final saveResponse = await _userAPI.saveUserData(userModel);
+      // saveUserData method from UserAPI class //
       saveResponse.fold(
         (l) => showSnackBar(context, l.message),
         (r) {
@@ -80,6 +81,18 @@ class AuthController extends StateNotifier<bool> {
     state = false; // state is false after getting the response //
     response.fold((l) => showSnackBar(context, l.message), (r) {
       Navigator.push(context, HomePage.route());
+    });
+  }
+
+  void logout(BuildContext context) async {
+    // logout method //
+    final res = await _authAPI.logout();
+    res.fold((l) => null, (r) {
+      Navigator.pushAndRemoveUntil(
+        context,
+        SignUpView.route(),
+        (route) => false,
+      );
     });
   }
 }

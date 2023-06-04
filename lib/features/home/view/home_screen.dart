@@ -5,6 +5,7 @@ import 'package:lottie/lottie.dart';
 import 'package:social_networking/features/auth/controller/auth_controller.dart';
 import 'package:social_networking/features/auth/widgets/auth_button.dart';
 import 'package:social_networking/features/auth/widgets/auth_fields.dart';
+import 'package:social_networking/features/home/widgets/logout.dart';
 import 'package:social_networking/styles/text_style.dart';
 import 'package:social_networking/theme/theme_imports.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
@@ -16,9 +17,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 import 'package:rich_clipboard/rich_clipboard.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class HomePage extends ConsumerStatefulWidget {
+class HomePage extends StatefulWidget {
   static route() {
     return MaterialPageRoute(
       builder: (context) => const HomePage(),
@@ -28,10 +28,10 @@ class HomePage extends ConsumerStatefulWidget {
   const HomePage({Key? key}) : super(key: key);
 
   @override
-  ConsumerState<HomePage> createState() => _HomePageState();
+  State<HomePage> createState() => _HomePageState();
 }
 
-class _HomePageState extends ConsumerState<HomePage> {
+class _HomePageState extends State<HomePage> {
   final flutterTts = FlutterTts();
   String lastWords = '';
   final OpenAIService openAIService = OpenAIService();
@@ -84,6 +84,7 @@ class _HomePageState extends ConsumerState<HomePage> {
             icon: const Icon(Icons.arrow_back_ios),
             color: Pallete.border,
           ),
+          actions: const [Logout()],
           centerTitle: true,
         ),
         body: SingleChildScrollView(
@@ -170,7 +171,7 @@ class _HomePageState extends ConsumerState<HomePage> {
 
               if (generatedImageUrl != null)
                 Padding(
-                  padding: EdgeInsets.all(10.0),
+                  padding: const EdgeInsets.all(10.0),
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(20),
                     child: FadeInImage.assetNetwork(

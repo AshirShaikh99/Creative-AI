@@ -24,6 +24,8 @@ abstract class IAuthAPI {
 
   Future<model.User?> currentUserAccount(); // logout method //
 
+  FutureEitherVoid logout(); // logout method //
+
 }
 
 class AuthAPI implements IAuthAPI {
@@ -53,7 +55,7 @@ class AuthAPI implements IAuthAPI {
       {required String emailID, required String password}) async {
     try {
       final account = await _account.create(
-        userId: 'unique()', // userId is a unique string //
+        userId: ID.unique(), // userId is a unique string //
         email: emailID, // email is a string //
         password: password, // password is a string //
       ); // create is a method from Account class //
@@ -96,5 +98,23 @@ class AuthAPI implements IAuthAPI {
     }
     // ignore: dead_code
     throw UnimplementedError();
+  }
+
+  @override
+  FutureEitherVoid logout() async {
+    try {
+      await _account.deleteSession(
+        sessionId: 'current',
+      );
+      return right(null);
+    } on AppwriteException catch (e, stackTrace) {
+      return left(
+        Failure(e.message ?? 'Some unexpected error occurred', stackTrace),
+      );
+    } catch (e, stackTrace) {
+      return left(
+        Failure(e.toString(), stackTrace),
+      );
+    }
   }
 }
