@@ -28,6 +28,17 @@ final currentUserAccountProvider = FutureProvider<model.User?>(
   },
 );
 
+final currentUserDetailsProvider = FutureProvider((ref) {
+  final currentUserId = ref.watch(currentUserAccountProvider).value!.$id;
+  final userDetails = ref.watch(userDetailsProvider(currentUserId));
+  return userDetails.value;
+});
+
+final userDetailsProvider = FutureProvider.family((ref, String uid) {
+  final authController = ref.watch(authControllerProvider.notifier);
+  return authController._userAPI.getUserData(uid);
+});
+
 class AuthController extends StateNotifier<bool> {
   final AuthAPI _authAPI; // AuthAPI is a class from AuthAPI.dart //
   final UserAPI _userAPI; // UserAPI is a class from UserAPI.dart //

@@ -6,6 +6,7 @@ import 'package:social_networking/features/auth/controller/auth_controller.dart'
 import 'package:social_networking/features/auth/widgets/auth_button.dart';
 import 'package:social_networking/features/auth/widgets/auth_fields.dart';
 import 'package:social_networking/features/home/widgets/logout.dart';
+import 'package:social_networking/features/home/widgets/user_name.dart';
 import 'package:social_networking/styles/text_style.dart';
 import 'package:social_networking/theme/theme_imports.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
@@ -52,6 +53,10 @@ class _HomePageState extends State<HomePage> {
 
   Future<void> systemSpeak(String content) async {
     await flutterTts.speak(content);
+  }
+
+  Future<void> pause(String content) async {
+    await flutterTts.stop();
   }
 
   @override
@@ -113,17 +118,17 @@ class _HomePageState extends State<HomePage> {
                     ),
                     child: Padding(
                       padding: const EdgeInsets.symmetric(vertical: 10.0),
-                      child: Text(
-                        generatedContent == null
-                            ? 'Good Morning, I am your instructor. How can I help you?'
-                            : generatedContent!,
-                        style: TextStyle(
-                          fontFamily: 'Rubik',
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
-                          fontSize: generatedContent == null ? 25 : 18,
-                        ),
-                      ),
+                      child: generatedContent == null
+                          ? const UserName()
+                          : Text(
+                              generatedContent!,
+                              style: TextStyle(
+                                fontFamily: 'Rubik',
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white,
+                                fontSize: generatedContent == null ? 25 : 18,
+                              ),
+                            ),
                     ),
                   ),
                 ),
@@ -164,6 +169,15 @@ class _HomePageState extends State<HomePage> {
                       ),
                       onPressed: () async {
                         await systemSpeak(generatedContent!);
+                      },
+                    ),
+                    IconButton(
+                      icon: const Icon(
+                        Icons.pause_rounded,
+                        color: Pallete.border,
+                      ),
+                      onPressed: () async {
+                        await pause(generatedContent!);
                       },
                     ),
                   ],
@@ -212,7 +226,7 @@ class _HomePageState extends State<HomePage> {
                   visible:
                       generatedContent == null && generatedImageUrl == null,
                   child: Container(
-                    padding: const EdgeInsets.all(10),
+                    padding: const EdgeInsets.all(20),
                     alignment: Alignment.centerLeft,
                     margin: const EdgeInsets.only(top: 10, left: 22),
                     child: const Text(
@@ -238,7 +252,7 @@ class _HomePageState extends State<HomePage> {
                         color: Pallete.blockColor1,
                         headingText: 'AppWrite',
                         subHeadingText:
-                            'A smarter way to get knowledge about AppWrite',
+                            'A smarter way to get knowledge about AppWrite and its features',
                       ),
                     ),
                     SlideInLeft(
@@ -247,7 +261,7 @@ class _HomePageState extends State<HomePage> {
                         color: Pallete.blockColor2,
                         headingText: 'Instant Answers',
                         subHeadingText:
-                            'Get knowledge from me in a matter of seconds',
+                            'Get knowledge from me in a matter of seconds by asking question',
                       ),
                     ),
                     SlideInLeft(

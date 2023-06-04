@@ -1,5 +1,5 @@
 import 'package:appwrite/appwrite.dart';
-import 'package:appwrite/models.dart';
+import 'package:appwrite/models.dart' as model;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:social_networking/constants/appwrite.dart';
@@ -14,6 +14,7 @@ final userAPIProvider = Provider((ref) {
 
 abstract class IUserAPI {
   FutureEitherVoid saveUserData(UserModel userModel);
+  Future<model.Document> getUserData(String uid);
 }
 
 class UserAPI implements IUserAPI {
@@ -27,7 +28,7 @@ class UserAPI implements IUserAPI {
         collectionId: AppWriteConstants.userCollectionID,
         documentId: userModel.uid,
         data: userModel.toMap(),
-        databaseId: "6477547a93ccaddcad22",
+        databaseId: userModel.uid,
       );
       right(null);
     } on AppwriteException catch (e, str) {
@@ -41,5 +42,14 @@ class UserAPI implements IUserAPI {
     }
 
     throw UnimplementedError();
+  }
+
+  @override
+  Future<model.Document> getUserData(String uid) {
+    return _db.getDocument(
+      databaseId: AppWriteConstants.databaseID,
+      collectionId: AppWriteConstants.userCollectionID,
+      documentId: uid,
+    );
   }
 }
