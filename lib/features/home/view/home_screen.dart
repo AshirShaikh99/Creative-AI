@@ -44,7 +44,7 @@ class _HomePageState extends State<HomePage> {
   bool isDrawing = false;
   TextEditingController textEditingController = TextEditingController();
   Dio dio = Dio();
-  String kPlaceHolderImage = 'assets/loading/loading.gif';
+  String kPlaceHolderImage = 'assets/load/loading.gif';
 
   @override
   void initState() {
@@ -189,7 +189,7 @@ class _HomePageState extends State<HomePage> {
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(20),
                     child: FadeInImage.assetNetwork(
-                        placeholder: 'assets/animations/loading.gif',
+                        placeholder: kPlaceHolderImage,
                         image: generatedImageUrl!),
                   ),
                 ),
