@@ -55,7 +55,7 @@ class AuthAPI implements IAuthAPI {
       {required String emailID, required String password}) async {
     try {
       final account = await _account.create(
-        userId: ID.unique(), // userId is a unique string //
+        userId: 'unique()', // userId is a unique string //
         email: emailID, // email is a string //
         password: password, // password is a string //
       ); // create is a method from Account class //
