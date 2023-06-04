@@ -189,7 +189,7 @@ class _HomePageState extends State<HomePage> {
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(20),
                     child: FadeInImage.assetNetwork(
-                        placeholder: kPlaceHolderImage,
+                        placeholder: 'assets/animations/loading.gif',
                         image: generatedImageUrl!),
                   ),
                 ),

@@ -65,7 +65,7 @@ class AuthController extends StateNotifier<bool> {
       UserModel userModel = UserModel(
         emailID: emailID,
         name: getNameFromEmail(emailID),
-        profilePic: '',
+        profilePic: '1234',
         uid: r.$id,
       ); //
       final saveResponse = await _userAPI.saveUserData(userModel);

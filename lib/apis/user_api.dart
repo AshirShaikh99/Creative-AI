@@ -28,7 +28,7 @@ class UserAPI implements IUserAPI {
         collectionId: AppWriteConstants.userCollectionID,
         documentId: userModel.uid,
         data: userModel.toMap(),
-        databaseId: userModel.uid,
+        databaseId: AppWriteConstants.databaseID,
       );
       right(null);
     } on AppwriteException catch (e, str) {

@@ -11,6 +11,7 @@ class UserName extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final currentUser = ref.watch(currentUserAccountProvider);
+
     return Text(
       "Hi ${getNameFromEmail(currentUser.value!.email)}, I am your creative AI, How can I help you?",
       style: TextStyle(
