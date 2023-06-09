@@ -53,6 +53,7 @@
 #### }
 
 * Add your own OpenAI API key in constant.dart file.
+* In this project I have used Riverpod State Management
 
 ##### Note!
 
@@ -81,6 +82,16 @@
 <img src="https://github.com/AshirShaikh99/Creative-AI/assets/99293735/e353601e-cc48-452e-b607-ab85b4b65a04" width="250" height="500">
 
 <img src="https://github.com/AshirShaikh99/Creative-AI/assets/99293735/c95f1b95-ff94-4651-960c-5da78245af42" width="250" height="500">
+
+
+
+
+## Project Structure
+
+<img width="279" alt="Screenshot 2023-06-09 at 7 28 50 PM" src="https://github.com/AshirShaikh99/Creative-AI/assets/99293735/1a4e57bd-a68a-4f36-b51a-6e8a553536b5">
+
+
+
 
 
 
