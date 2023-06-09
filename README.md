@@ -64,21 +64,27 @@
 
 <img src="https://github.com/AshirShaikh99/Creative-AI/assets/99293735/85730b34-e644-4442-874a-170175109f28" width="250" height="500">
 
-![2](https://github.com/AshirShaikh99/Creative-AI/assets/99293735/699e5910-2172-4505-9ed2-9981b655395a)
+<img src="https://github.com/AshirShaikh99/Creative-AI/assets/99293735/699e5910-2172-4505-9ed2-9981b655395a" width="250" height="500">
 
-![10](https://github.com/AshirShaikh99/Creative-AI/assets/99293735/8c1bb879-0aab-4904-b829-ea107756efa2)
+<img src="https://github.com/AshirShaikh99/Creative-AI/assets/99293735/8c1bb879-0aab-4904-b829-ea107756efa2" width="250" height="500">
 
-![15](https://github.com/AshirShaikh99/Creative-AI/assets/99293735/521c8248-87dc-4dbd-86a1-f46426ab9389)
+<img src="https://github.com/AshirShaikh99/Creative-AI/assets/99293735/521c8248-87dc-4dbd-86a1-f46426ab9389" width="250" height="500">
 
-![20](https://github.com/AshirShaikh99/Creative-AI/assets/99293735/4a341db8-d007-43ac-ab6f-06ff0fc0dfd7)
+<img src="https://github.com/AshirShaikh99/Creative-AI/assets/99293735/4a341db8-d007-43ac-ab6f-06ff0fc0dfd7" width="250" height="500">
 
-![30](https://github.com/AshirShaikh99/Creative-AI/assets/99293735/033610e4-c5d7-4fcd-ae5a-2b32c0122108)
+<img src="https://github.com/AshirShaikh99/Creative-AI/assets/99293735/033610e4-c5d7-4fcd-ae5a-2b32c0122108" width="250" height="500">
 
-![32](https://github.com/AshirShaikh99/Creative-AI/assets/99293735/328a51cb-2096-41bb-9248-0d4ca67550ea)
+<img src="https://github.com/AshirShaikh99/Creative-AI/assets/99293735/328a51cb-2096-41bb-9248-0d4ca67550ea" width="250" height="500">
 
-![90](https://github.com/AshirShaikh99/Creative-AI/assets/99293735/e353601e-cc48-452e-b607-ab85b4b65a04)
+<img src="https://github.com/AshirShaikh99/Creative-AI/assets/99293735/328a51cb-2096-41bb-9248-0d4ca67550ea" width="250" height="500">
 
-![5](https://github.com/AshirShaikh99/Creative-AI/assets/99293735/c95f1b95-ff94-4651-960c-5da78245af42)
+<img src="https://github.com/AshirShaikh99/Creative-AI/assets/99293735/e353601e-cc48-452e-b607-ab85b4b65a04" width="250" height="500">
+
+<img src="https://github.com/AshirShaikh99/Creative-AI/assets/99293735/c95f1b95-ff94-4651-960c-5da78245af42" width="250" height="500">
+
+
+
+
 
 
 
