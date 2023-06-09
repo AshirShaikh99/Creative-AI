@@ -5,7 +5,7 @@ import 'constants.dart';
 class UIConstants {
   static AppBar appBar() {
     return AppBar(
-      title: Text(
+      title: const Text(
         "Creative AI",
         style: TextStyle(
           fontFamily: 'Rubik',
