@@ -62,7 +62,7 @@
 ## Screenshots
 
 
-<img src="https://github.com/AshirShaikh99/Creative-AI/assets/99293735/85730b34-e644-4442-874a-170175109f28" width="150" height="280">
+<img src="https://github.com/AshirShaikh99/Creative-AI/assets/99293735/85730b34-e644-4442-874a-170175109f28" width="300" height="300">
 
 ![2](https://github.com/AshirShaikh99/Creative-AI/assets/99293735/699e5910-2172-4505-9ed2-9981b655395a)
 
