@@ -68,6 +68,7 @@
 
 
 
+
 <img src="https://github.com/AshirShaikh99/Creative-AI/assets/99293735/3369d7bb-fea4-43a4-b39d-30de6e891792" width="250" height="500">
 
 <img src="https://github.com/AshirShaikh99/Creative-AI/assets/99293735/32b99281-0402-43e4-823d-bae250a7e9ff" width="250" height="500">
@@ -78,15 +79,16 @@
 
 <img src="https://github.com/AshirShaikh99/Creative-AI/assets/99293735/1ea40bf3-ed5d-4d81-9d4a-13abfd14dc12" width="250" height="500">
 
-<img src="https://github.com/AshirShaikh99/Creative-AI/assets/99293735/033610e4-c5d7-4fcd-ae5a-2b32c0122108" width="250" height="500">
+<img src="https://github.com/AshirShaikh99/Creative-AI/assets/99293735/0c5042a2-cdc1-4db2-9822-2d22a4c73b7d" width="250" height="500">
 
-<img src="https://github.com/AshirShaikh99/Creative-AI/assets/99293735/328a51cb-2096-41bb-9248-0d4ca67550ea" width="250" height="500">
+<img src="https://github.com/AshirShaikh99/Creative-AI/assets/99293735/b29fcb61-59c7-4a35-8158-7fe8af20a7ba" width="250" height="500">
 
-<img src="https://github.com/AshirShaikh99/Creative-AI/assets/99293735/328a51cb-2096-41bb-9248-0d4ca67550ea" width="250" height="500">
+<img src="https://github.com/AshirShaikh99/Creative-AI/assets/99293735/37b32cbc-fb28-4fbf-9203-1d0e3d9199b7" width="250" height="500">
 
 <img src="https://github.com/AshirShaikh99/Creative-AI/assets/99293735/e353601e-cc48-452e-b607-ab85b4b65a04" width="250" height="500">
 
 <img src="https://github.com/AshirShaikh99/Creative-AI/assets/99293735/c95f1b95-ff94-4651-960c-5da78245af42" width="250" height="500">
+
 
 
 
