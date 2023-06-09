@@ -51,3 +51,9 @@
 #### static const String userCollectionID = "";
 
 #### }
+
+* Add your own OpenAI API key in constant.dart file.
+
+##### Note!
+
+* Make sure you have setup the project completely to avoid any issues.
